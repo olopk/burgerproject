@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     salad: 0.2,
@@ -18,7 +20,9 @@ class BurgerBuilder extends Component{
             cheese: 0,
             meat: 0
         },
-    price: 3    
+    price: 3,
+    orderability: false,
+    ordervisible: false
     }
     
     addIngredient = (type) => {
@@ -31,7 +35,7 @@ class BurgerBuilder extends Component{
         const updPrice = oldPrice + INGREDIENT_PRICES[type];
 
         this.setState({ingredients: updIngr, price: updPrice});
-
+        this.updOrderab(updIngr);
     }
 
     remIngredient = (type) => {
@@ -47,6 +51,16 @@ class BurgerBuilder extends Component{
         const updPrice = oldPrice - INGREDIENT_PRICES[type];
 
         this.setState({ingredients: updIngr, price: updPrice});
+        this.updOrderab(updIngr);
+    }
+
+    updOrderab = (data) =>{
+        const count = Object.keys(data).map(el => { return data[el] }).reduce((sum,curr) => { return sum + curr},0);
+        this.setState({orderability: count > 0});
+    }
+
+    ordervisHandler = () => {
+        this.setState({ordervisible: true})
     }
 
     render() {
@@ -70,12 +84,17 @@ class BurgerBuilder extends Component{
 
         return(
             <Aux>
+                <Modal show={this.state.ordervisHandler} style={visibility: 'none'}}>
+                    <OrderSummary ingredients={this.state.ingredients}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls 
                 add={this.addIngredient}
                 rem={this.remIngredient} 
                 disabled={disabledInfo}
                 price={this.state.price}
+                orddis={this.state.orderability}
+                visib={this.ordervisHandler}
                 />
             </Aux>
         );
