@@ -23,7 +23,7 @@ class Layout extends Component {
             <SideDrawer clicked={this.sideDrawerClosedHandler} show={this.state.showSideDrawer}/>
             <main className={classes.Content}>
                 {this.props.children}
-            </main>ping 
+            </main>
         </Aux>
         )
     }

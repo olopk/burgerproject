@@ -71,14 +71,29 @@ class BurgerBuilder extends Component{
     }
     purchaseContinueHandler = () =>{
         // alert('You made it john');
-        this.setState({loading: true});
+        // this.setState({loading: true});
 
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.price,
-            author: 'Ololek'
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.price,
+        //     author: 'Ololek'
+        // }
+        // axios.post('/orders.json ', order).then(response => this.setState({loading: false, ordervisible: false}))
+
+        const query = [];
+
+        for(let i in this.state.ingredients){
+            query.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
-        axios.post('/orders.json ', order).then(response => this.setState({loading: false, ordervisible: false}))
+
+        const queryString = query.join('&');
+
+
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
+
     }
     render() {
 
@@ -124,7 +139,6 @@ class BurgerBuilder extends Component{
                 price={this.state.price}
                 orddis={this.state.orderability}
                 visib={this.ordervisHandler}
-                
                 />
             </Aux>
         );
