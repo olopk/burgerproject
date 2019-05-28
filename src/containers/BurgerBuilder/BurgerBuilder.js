@@ -5,6 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-order';
+// import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENT_PRICES = {
@@ -71,23 +72,15 @@ class BurgerBuilder extends Component{
     }
     purchaseContinueHandler = () =>{
         // alert('You made it john');
-        // this.setState({loading: true});
-
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.price,
-        //     author: 'Ololek'
-        // }
-        // axios.post('/orders.json ', order).then(response => this.setState({loading: false, ordervisible: false}))
+    
 
         const query = [];
 
         for(let i in this.state.ingredients){
             query.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
-
+        query.push('price=' + this.state.price);
         const queryString = query.join('&');
-
 
         this.props.history.push({
             pathname: '/checkout',
@@ -95,6 +88,14 @@ class BurgerBuilder extends Component{
         });
 
     }
+
+    componentWillMount(){
+        axios.get('/ingredients.json').then((resp) => {
+            this.setState({ingredients: resp.data})
+        })
+    }
+
+
     render() {
 
         const disabledInfo = {
