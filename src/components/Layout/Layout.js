@@ -19,12 +19,12 @@ class Layout extends Component {
     render () {
         return (
             <Aux>
-            <Toolbar clicked={this.sideDrawerClosedHandler}/>
-            <SideDrawer clicked={this.sideDrawerClosedHandler} show={this.state.showSideDrawer}/>
-            <main className={classes.Content}>
-                {this.props.children}
-            </main>
-        </Aux>
+                <Toolbar clicked={this.sideDrawerClosedHandler}/>
+                <SideDrawer clicked={this.sideDrawerClosedHandler} show={this.state.showSideDrawer}/>
+                <main className={classes.Content}>
+                    {this.props.children}
+                </main>
+            </Aux>
         )
     }
 }

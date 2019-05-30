@@ -2,3 +2,9 @@
     font-size: 30px;
     color: white;
 }
+
+@media (min-width: 500px) {
+    .Menu {
+        display: none;
+    }
+}
