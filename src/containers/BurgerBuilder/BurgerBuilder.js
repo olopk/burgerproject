@@ -8,12 +8,16 @@ import axios from '../../axios-order';
 // import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-import * as actionTypes from '../../store/actions';
+import * as actionTypes from '../../store/actions/actionTypes';
 import { connect } from 'react-redux';
+
+import {addIngredient, removeIngredient, initIngredients} from '../../store/actions/index';
+
+
 
 class BurgerBuilder extends Component{
     state = {
-    orderability: false,
+    // orderability: false,
     ordervisible: false,
     loading: false
     }
@@ -46,11 +50,13 @@ class BurgerBuilder extends Component{
     //     this.setState({ingredients: updIngr, price: updPrice});
     //     this.updOrderab(updIngr);
     // }
-
+    
     updOrderab = (data) =>{
         const count = Object.keys(data).map(el => { return data[el] }).reduce((sum,curr) => { return sum + curr},0);
-        this.setState({orderability: count > 0});
+        return count > 0;
+        // this.setState({orderability: count > 0});
     }
+   
 
     ordervisHandler = () => {
         this.setState({ordervisible: true})
@@ -79,9 +85,8 @@ class BurgerBuilder extends Component{
     }
 
     componentWillMount(){
-        // axios.get('/ingredients.json').then((resp) => {
-        //     this.setState({ingredients: resp.data})
-        // })
+      console.log('did mount man');
+      this.props.onIngredientsFetch();
     }
 
 
@@ -116,19 +121,23 @@ class BurgerBuilder extends Component{
             summary = <Spinner />
         }
         
+        let burger = '';
+
+        this.props.error ? burger = <p>Ooops! The burger cant be loaded!</p> : burger = <Burger ingredients={this.props.ings}/>;
 
         return(
             <Aux>
                 <Modal show={this.state.ordervisible} backdropHandler={this.purchaseCancelHandler} >
                    {summary}
                 </Modal>
-                <Burger ingredients={this.props.ings}/>
+                {burger}
                 <BuildControls 
                 add={this.props.onIngredientAdded}
                 rem={this.props.onIngredientRemoved} 
                 disabled={disabledInfo}
                 price={this.props.price}
-                orddis={this.state.orderability}
+                // orddis={this.props.orderability}
+                orddis={this.updOrderab(this.props.ings)}
                 visib={this.ordervisHandler}
                 />
             </Aux>
@@ -139,14 +148,17 @@ class BurgerBuilder extends Component{
 const stateMapToProps = state =>{
     return{
         ings: state.ingredients,
-        price: state.price
+        price: state.price,
+        orderability: state.orderability,
+        error: state.error
     }
 }
 
 const dispatchMapToProps = dispatch =>{
     return{
-        onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+        onIngredientAdded: (ingName) => dispatch(addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(removeIngredient(ingName)),
+        onIngredientsFetch: () => dispatch(initIngredients())
     }
 }
 
