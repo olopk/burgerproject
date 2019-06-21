@@ -23,7 +23,7 @@ export const fetchIngredientsFailed = () =>{
 export const setIngredients = (ings) => {
     return{
         type: actionTypes.SET_INGREDIENTS,
-        ingredients: ings      
+        ingredients: ings
     }
 }
 
@@ -31,8 +31,6 @@ export const initIngredients = () => {
     return dispatch => {
         axios.get('/ingredients.json')
         .then(response => {
-            console.log('sfeczowane');
-            console.log(response.data);
             dispatch(setIngredients(response.data));
         })
         .catch(

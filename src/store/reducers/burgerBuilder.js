@@ -1,12 +1,7 @@
 import  * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0
-    },
+    ingredients: null,
     price: 3,
     orderability: false,
     error: false
@@ -55,7 +50,9 @@ const reducer = (state = initialState, action) =>{
                 error: true
             }
         }
+        default:
+            return state
     }
-    return state;
 }
+
 export default reducer;

@@ -4,11 +4,11 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import axios from '../../axios-order';
+// import axios from '../../axios-order';
 // import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 import { connect } from 'react-redux';
 
 import {addIngredient, removeIngredient, initIngredients} from '../../store/actions/index';
@@ -19,7 +19,6 @@ class BurgerBuilder extends Component{
     state = {
     // orderability: false,
     ordervisible: false,
-    loading: false
     }
     
     // addIngredient = (type) => {
@@ -128,10 +127,10 @@ class BurgerBuilder extends Component{
         return(
             <Aux>
                 <Modal show={this.state.ordervisible} backdropHandler={this.purchaseCancelHandler} >
-                   {summary}
+                   {/* {summary} */}
                 </Modal>
-                {burger}
-                <BuildControls 
+                {/* {burger} */}
+                {/* <BuildControls 
                 add={this.props.onIngredientAdded}
                 rem={this.props.onIngredientRemoved} 
                 disabled={disabledInfo}
@@ -139,7 +138,7 @@ class BurgerBuilder extends Component{
                 // orddis={this.props.orderability}
                 orddis={this.updOrderab(this.props.ings)}
                 visib={this.ordervisHandler}
-                />
+                /> */}
             </Aux>
         );
     }
