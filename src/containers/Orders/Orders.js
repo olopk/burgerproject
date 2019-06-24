@@ -1,44 +1,48 @@
 import React, {Component} from 'react';
 import Order from '../../components/Order/Order';
-import axios from '../../axios-order';
-// import Spinner from '../../components/UI/Spinner/Spinner';
-import order from '../../axios-order';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 
 class Orders extends Component{
-
-    state = {
-        orders: [],
-        loading: true,
-    }
-
-    componentDidMount(){
-        let fetchedOrders = [];
-        axios.get('/orders.json').then(res => {
-            for(let el in res.data){
-                fetchedOrders.push({
-                    ...res.data[el],
-                    id: el
-                });
-            }
-            this.setState({orders: fetchedOrders, loading: false});
-            console.log(this.state.orders);
-        }).catch(err => {
-            console.log('we have a bug: ' + err);
-            this.setState({loading: false});
-        });
+    componentWillMount(){
+        this.props.onFetchOrders();
     }
 
     render(){
-        return(
+        let content = <Spinner/>
 
-            <div>
-                {this.state.orders.map(ord => (
-                <Order key={order.id} ingredients={ord.ingredients} price={ord.price}/>)
+        if(this.props.orders){
+            content = (
+                <div>
+                {this.props.orders.map(ord => (
+                <Order key={ord.id} ingredients={ord.ingredients} price={ord.price}/>)
                 )}                
+            </div>
+            )
+        }
+
+        return(
+            <div>
+            {content}
             </div>
 
         )
     }
 }
 
-export default Orders;
+const mapStateToProps = state => {
+    return{
+        orders: state.orders,
+        loading: state.loading
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        onFetchOrders: () => dispatch(actions.fetchOrders)
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Orders);

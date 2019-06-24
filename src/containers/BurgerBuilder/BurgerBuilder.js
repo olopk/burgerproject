@@ -84,8 +84,7 @@ class BurgerBuilder extends Component{
 
     }
 
-    componentWillMount(){
-      console.log('did mount man');
+    componentDidMount(){
       this.props.onIngredientsFetch();
     }
 
