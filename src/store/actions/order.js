@@ -61,8 +61,7 @@ export const fetchOrdersFail = (error) => {
 
 export const fetchOrdersStart = () => {
     return{
-        type: actionTypes.FETCH_ORDERS_START,
-        loading: true
+        type: actionTypes.FETCH_ORDERS_START
     }
 }
 

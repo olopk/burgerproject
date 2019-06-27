@@ -24,6 +24,6 @@
     background-color: #ccc;
 }
 .Invalid{
-    background-color: rgb(250, 92, 92);
-    outline: rgb(250, 160, 150);
+    border: 1px solid red;
+    background-color: rgb(250, 160, 150);
 }

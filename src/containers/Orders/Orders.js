@@ -3,46 +3,40 @@ import Order from '../../components/Order/Order';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
+import axios from '../../axios-order';
 
 class Orders extends Component{
-    componentWillMount(){
+    componentDidMount(){
         this.props.onFetchOrders();
     }
 
     render(){
-        let content = <Spinner/>
+        let content = <Spinner/>;
 
-        if(this.props.orders){
-            content = (
-                <div>
-                {this.props.orders.map(ord => (
-                <Order key={ord.id} ingredients={ord.ingredients} price={ord.price}/>)
-                )}                
-            </div>
-            )
-        }
-
+        if(!this.props.loading){
+            content = this.props.orders.map(ord => (
+                <Order key={ord.id} ingredients={ord.ingredients} price={ord.price}/>
+                ))};                
         return(
             <div>
-            {content}
+                {content}
             </div>
-
-        )
+        );
     }
 }
 
 const mapStateToProps = state => {
     return{
-        orders: state.orders,
-        loading: state.loading
+        orders: state.orders.orders,
+        loading: state.orders.loading
     }
 }
 
 const mapDispatchToProps = dispatch =>{
     return{
-        onFetchOrders: () => dispatch(actions.fetchOrders)
+        onFetchOrders: () => dispatch(actions.fetchOrders())
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+export default connect(mapStateToProps, mapDispatchToProps)(Orders, axios);

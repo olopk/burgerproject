@@ -12,7 +12,7 @@ const Order = (props) => {
     const parseIng = ingredients.map(el => {
 
         return (
-            <span style={{
+            <span key={Math.random()} style={{
                 textTransform: 'capitalize',
                 display: 'inline-block',
                 margin: '0 8px',
