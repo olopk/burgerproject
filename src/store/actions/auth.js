@@ -16,7 +16,7 @@ export const authSuccess = (authData) =>{
 
 export const authFail = (error) =>{
     return{
-        type: actionTypes.AUTH_SUCCESS,
+        type: actionTypes.AUTH_FAIL,
         error: error
     };
 };
@@ -24,6 +24,19 @@ export const authFail = (error) =>{
 export const auth = (email, password) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyCustomToken?key=AIzaSyC9yxmAzRYuxYpvXNPnW4iMXog_e_NHWtA')
-    }
-}
+        const authData = {
+            email: email,
+            password: password,
+            returnSecureToken: true
+        }
+        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC9yxmAzRYuxYpvXNPnW4iMXog_e_NHWtA', authData)
+        .then(resp => {
+            console.log(resp);
+            dispatch(authSuccess(resp.data));
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(authFail(err));
+        })
+    };
+};
