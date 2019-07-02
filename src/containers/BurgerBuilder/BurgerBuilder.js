@@ -58,7 +58,13 @@ class BurgerBuilder extends Component{
    
 
     ordervisHandler = () => {
-        this.setState({ordervisible: true})
+
+        if(this.props.isAuth){
+            this.setState({ordervisible: true})    
+        }
+        else{
+            this.props.history.push('/auth')
+        }
     }
 
     purchaseCancelHandler = () => {
@@ -66,8 +72,9 @@ class BurgerBuilder extends Component{
     }
     purchaseContinueHandler = () =>{
         // alert('You made it john');
+        
         this.props.onInitPurchase();  
-        this.props.history.push('/checkout');
+        this.props.history.push('/checkout');    
 
         // const query = [];
 
@@ -136,6 +143,7 @@ class BurgerBuilder extends Component{
             price={this.props.price}
             // orddis={this.props.orderability}
             orddis={this.updOrderab(this.props.ings)}
+            isAuthenticated={this.props.isAuth}
             visib={this.ordervisHandler}
             />
             
@@ -161,7 +169,8 @@ const stateMapToProps = state =>{
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.price,
         orderability: state.burgerBuilder.orderability,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuth: state.auth.userId !== null
     }
 }
 

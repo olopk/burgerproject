@@ -18,7 +18,7 @@ function App() {
             <Route path="/checkout" component={Checkout} />
             <Route path="/auth" component={Auth} />
             <Route path="/logout" component={Logout} />
-            <Route path="/" component={BurgerBuilder} />
+            <Route path="/" component={BurgerBuilder}/>
          </Switch>
         </Layout>
       </BrowserRouter>
