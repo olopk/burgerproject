@@ -4,7 +4,8 @@ const initialState = {
     ingredients: null,
     price: 3,
     orderability: false,
-    error: false
+    error: false,
+    isBuild: false
 }
 
 const INGREDIENT_PRICES = {
@@ -25,6 +26,7 @@ const reducer = (state = initialState, action) =>{
                     [action.ingredientName]: state.ingredients[action.ingredientName] + 1
                 },
                 price: state.price + INGREDIENT_PRICES[action.ingredientName],
+                isBuild: true
             }
         }
         case actionTypes.REMOVE_INGREDIENT:{
@@ -34,7 +36,8 @@ const reducer = (state = initialState, action) =>{
                     ...state.ingredients,
                     [action.ingredientName]: state.ingredients[action.ingredientName] - 1
                 },
-                price: state.price - INGREDIENT_PRICES[action.ingredientName]
+                price: state.price - INGREDIENT_PRICES[action.ingredientName],
+                isBuild: true
             }
         }
         case actionTypes.SET_INGREDIENTS:{
@@ -42,7 +45,8 @@ const reducer = (state = initialState, action) =>{
                 ...state,
                 ingredients: action.ingredients,
                 error: false,
-                price: 3
+                price: 3,
+                isBuild: false
             }
         }
         case actionTypes.FETCH_INGREDIENTS_FAILED:{

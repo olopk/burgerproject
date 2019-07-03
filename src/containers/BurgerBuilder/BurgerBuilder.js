@@ -11,7 +11,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 // import * as actionTypes from '../../store/actions/actionTypes';
 import { connect } from 'react-redux';
 
-import {addIngredient, removeIngredient, initIngredients, purchaseInit} from '../../store/actions/index';
+import {addIngredient, removeIngredient, initIngredients, purchaseInit, setAuthRedirectPath} from '../../store/actions/index';
 
 
 
@@ -170,7 +170,8 @@ const dispatchMapToProps = dispatch =>{
         onIngredientAdded: (ingName) => dispatch(addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(removeIngredient(ingName)),
         onIngredientsFetch: () => dispatch(initIngredients()),
-        onInitPurchase: () => dispatch(purchaseInit())
+        onInitPurchase: () => dispatch(purchaseInit()),
+        onSetAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path))
     }
 }
 
